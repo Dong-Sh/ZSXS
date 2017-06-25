@@ -49,7 +49,12 @@ public class MainActivity extends Activity {
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-        transaction.replace(R.id.main_fragment, fragments.get(0));
+        for (int i = 0; i < 4; i++) {
+            transaction.add(R.id.main_fragment,fragments.get(i), i + "");
+            transaction.hide(fragments.get(i));
+        }
+
+        transaction.show(fragments.get(0));
 
         transaction.commit();
     }
@@ -81,10 +86,16 @@ public class MainActivity extends Activity {
                     title.setVisible(View.INVISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
                 }
 
-                transaction.replace(R.id.main_fragment, fragments.get(checkedId - 2131427425));
+//                transaction.replace(R.id.main_fragment, );
+
+                for (int i = 0; i < 4; i++) {
+                    transaction.hide(fragments.get(i));
+                }
+                transaction.show(fragments.get(checkedId - 2131427425));
 
                 transaction.commit();
             }
         });
     }
+
 }

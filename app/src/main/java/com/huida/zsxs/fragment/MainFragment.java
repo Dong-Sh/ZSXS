@@ -6,12 +6,10 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,20 +19,18 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.huida.zsxs.R;
+import com.huida.zsxs.adapter.HomeGridViewAdapter;
+import com.huida.zsxs.adapter.MainTopViewPagerAdapter;
 import com.huida.zsxs.bean.Course100Bean;
 import com.huida.zsxs.bean.HomeListViewBean;
-import com.huida.zsxs.bean.SlidesBean;
+import com.huida.zsxs.bean.TopSlidesBean;
 import com.huida.zsxs.utils.StaticValue;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -50,6 +46,8 @@ public class MainFragment extends BaseFragment {
     private LinearLayout home_4_ll;
     private LinearLayout home_100_ll;
     private GridView home_gv;
+    List<TopSlidesBean.SlidesBean> slidesBeanList;
+
 
     public MainFragment(Activity mActivity) {
         super(mActivity);
@@ -71,12 +69,10 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    private List<SlidesBean> slidesBeanList = new LinkedList<>();
 
     private void initData() {
 
-        mainTopViewPagerAdapter = new MainTopViewPagerAdapter();
-        home_top_vp.setAdapter(mainTopViewPagerAdapter);
+
         getHttpData();
         initEvent();
     }
@@ -108,7 +104,7 @@ public class MainFragment extends BaseFragment {
 
             @Override
             public void onPageSelected(int position) {
-                home_top_rg.check(home_top_rg.getChildAt(position % slidesBeanList.size()).getId());
+                home_top_rg.check(home_top_rg.getChildAt(position % (slidesBeanList.size() == 0 ? position + 1 : slidesBeanList.size())).getId());
             }
 
             @Override
@@ -121,41 +117,118 @@ public class MainFragment extends BaseFragment {
     public void getHttpData() {
         RequestParams entity;
         final Gson gson = new Gson();
-        if (slidesBeanList.size() != 0) {
-            handler.sendEmptyMessage(1);
-            mainTopViewPagerAdapter.notifyDataSetChanged();
-            handler.sendEmptyMessageDelayed(0, 2000);
-        } else {
+        final ImageOptions imageoptions = new ImageOptions.Builder()
+                .build();
+
+        {//首页幻灯片信息
             entity = new RequestParams(StaticValue.Address);
-            entity.addQueryStringParameter("Action", "GetSlides");//首页幻灯片信息
+            entity.addQueryStringParameter("Action", "GetSlides");
             x.http().get(entity, new Callback.CommonCallback<String>() {
                 public void onSuccess(String result) {
 
-                    if(slidesBeanList.size()==0)
-                        return;
+                    slidesBeanList = gson.fromJson(result, TopSlidesBean.class).getSlides();
+                    Log.d(TAG, "onSuccess: "+slidesBeanList.size());
+                    handler.sendEmptyMessageDelayed(0, 2000);
+                    handler.sendEmptyMessage(-1);
+                    handler.sendEmptyMessage(1);
+                    home_top_vp.setCurrentItem(slidesBeanList.size() * 50);
+                    mainTopViewPagerAdapter.notifyDataSetChanged();
+                    Log.d(TAG, "onSuccess: " + slidesBeanList);
 
-                    try {
-                        slidesBeanList.clear();
-                        JSONObject object = new JSONObject(result);
-                        JSONArray array = new JSONArray(object.get("Slides").toString());
+                }
 
-                        for (int i = 0; i < array.length(); i++) {
-                            slidesBeanList.add(gson.fromJson(array.getString(i), SlidesBean.class));
-                        }
-                        handler.sendEmptyMessageDelayed(0, 2000);
-                        handler.sendEmptyMessage(1);
-                        mainTopViewPagerAdapter.notifyDataSetChanged();
-                        home_top_vp.setCurrentItem(slidesBeanList.size() * 50);
-                        Log.d(TAG, "onSuccess: " + slidesBeanList);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    Log.d(TAG, "onError: 首页幻灯片信息" + ex);
+                }
+
+                public void onCancelled(CancelledException cex) {
+
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+            });
+        }
+
+        //四小图标
+
+        {
+            for (int i = 0; i < home_4_ll.getChildCount(); i++) {
+                LinearLayout ll = (LinearLayout) home_4_ll.getChildAt(i);
+                ll.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        LinearLayout ll = (LinearLayout) v;
+                        TextView childAt = (TextView) ll.getChildAt(1);
+                        //TODO 四个小图标跳转
+                    }
+                });
+                final ImageView childAt = (ImageView) ll.getChildAt(0);
+                x.image().bind(childAt, "http://www.chinaplat.com/images/app0" + (i + 1) + ".png");
+
+            }
+        }
+
+        {//获取百分课程
+            entity = new RequestParams(StaticValue.Address);
+            entity.addQueryStringParameter("Action", "GetCourse100");
+
+            x.http().get(entity, new Callback.CommonCallback<String>() {
+                @Override
+                public void onSuccess(String result) {
+                    Log.d(TAG, "onSuccess: course100Bean" + result);
+
+                    Course100Bean course100Bean = gson.fromJson(result, Course100Bean.class);
+
+                    for (int i = 0; i < course100Bean.getCourse().size(); i++) {
+
+                        Course100Bean.CourseBean courseBean = course100Bean.getCourse().get(i);
+
+                        LinearLayout ll = (LinearLayout) home_100_ll.getChildAt(i);
+
+                        final ImageView icon = (ImageView) ll.getChildAt(0);
+                        final TextView name = (TextView) ll.getChildAt(1);
+                        name.setText(courseBean.getTitle());
+
+
+                        x.image().loadDrawable(courseBean.getImg(), imageoptions, new CommonCallback<Drawable>() {
+
+                            @Override
+                            public void onSuccess(Drawable result) {
+                                icon.setBackground(result);
+//                            icon.setImageDrawable(result);
+
+                            }
+
+                            @Override
+                            public void onError(Throwable ex, boolean isOnCallback) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(CancelledException cex) {
+
+                            }
+
+                            @Override
+                            public void onFinished() {
+
+                            }
+                        });
+
+
+                        Log.d(TAG, "onSuccess: course100Bean" + course100Bean);
+
                     }
                 }
 
+                @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
                     Log.d(TAG, "onError: " + ex);
                 }
 
+                @Override
                 public void onCancelled(CancelledException cex) {
 
                 }
@@ -164,37 +237,25 @@ public class MainFragment extends BaseFragment {
                 public void onFinished() {
 
                 }
+
             });
         }
-        final ImageOptions imageoptions = new ImageOptions.Builder()
-                .build();
 
-        for (int i = 0; i < home_4_ll.getChildCount(); i++) {//四小图标
-            LinearLayout ll = (LinearLayout) home_4_ll.getChildAt(i);
-
-            ll.setOnClickListener(new View.OnClickListener() {
+        {//获取推荐课程
+            entity = new RequestParams(StaticValue.Address);
+            entity.addQueryStringParameter("Action", "GetTJCourseList");
+            x.http().get(entity, new Callback.CommonCallback<String>() {
                 @Override
-                public void onClick(View v) {
-                    LinearLayout ll = (LinearLayout) v;
-                    TextView childAt = (TextView) ll.getChildAt(1);
-                    Log.d(TAG, "onClick: " + childAt.getText());
-                    //TODO 四个小图标跳转
-                }
-            });
+                public void onSuccess(String result) {
 
-            final ImageView childAt = (ImageView) ll.getChildAt(0);
-
-
-            x.image().loadDrawable("http://www.chinaplat.com/images/app0" + (i + 1) + ".png", imageoptions, new Callback.CommonCallback<Drawable>() {
-                @Override
-                public void onSuccess(Drawable result) {
-                    Log.d(TAG, "onSuccess: " + result);
-                    childAt.setBackground(result);
+                    homeListViewBean = gson.fromJson(result, HomeListViewBean.class);
+                    handler.sendEmptyMessage(2);
+                    Log.d(TAG, "onSuccess: " + homeListViewBean);
                 }
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
-                    Log.d(TAG, "onSuccess: loadDrawable" + ex);
+                    Log.d(TAG, "onCancelled: " + ex);
                 }
 
                 @Override
@@ -208,151 +269,10 @@ public class MainFragment extends BaseFragment {
                 }
             });
         }
-        entity = new RequestParams(StaticValue.Address);//获取百分课程
-        entity.addQueryStringParameter("Action","GetCourse100");
-
-        x.http().get(entity, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Log.d(TAG, "onSuccess: course100Bean"+result);
-
-                Course100Bean course100Bean = gson.fromJson(result, Course100Bean.class);
-
-                for(int i =0;i<course100Bean.getCourse().size();i++){
-
-                    Course100Bean.CourseBean courseBean = course100Bean.getCourse().get(i);
-
-                    LinearLayout ll = (LinearLayout) home_100_ll.getChildAt(i);
-
-                    final ImageView icon = (ImageView) ll.getChildAt(0);
-                    final TextView name = (TextView) ll.getChildAt(1);
-                    name.setText(courseBean.getTitle());
-
-                    x.image().loadDrawable(courseBean.getImg(), imageoptions, new CommonCallback<Drawable>() {
-
-                        @Override
-                        public void onSuccess(Drawable result) {
-                            icon.setBackground(result);
-//                            icon.setImageDrawable(result);
-
-                        }
-
-                        @Override
-                        public void onError(Throwable ex, boolean isOnCallback) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(CancelledException cex) {
-
-                        }
-
-                        @Override
-                        public void onFinished() {
-
-                        }
-                    });
-
-
-                }
-
-
-                Log.d(TAG, "onSuccess: course100Bean"+course100Bean);
-
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d(TAG, "onError: "+ex);
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-
-        });
-
-        entity = new RequestParams(StaticValue.Address);
-        entity.addQueryStringParameter("Action","GetTJCourseList");
-        x.http().get(entity, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-
-                homeListViewBean = gson.fromJson(result, HomeListViewBean.class);
-
-                Log.d(TAG, "onSuccess: "+homeListViewBean);
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
     }
+
     private HomeListViewBean homeListViewBean;
-    private class MainTopViewPagerAdapter extends PagerAdapter {
 
-        @Override
-        public int getCount() {
-            return 10000;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-
-
-            if (slidesBeanList.size() != 0) {
-                position %= slidesBeanList.size();
-                ImageView im = new ImageView(mActivity);
-                im.setBackgroundResource(R.mipmap.guodu_icon);
-
-                im.setLayoutParams(params);
-
-                if (position < 0) {
-                    position = slidesBeanList.size() + position;
-                }
-
-                SlidesBean slidesBean = slidesBeanList.get(position);
-
-                x.image().bind(im, slidesBean.getPic());
-
-
-                container.addView(im);
-                return im;
-            }
-
-
-            return null;
-        }
-
-        ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-
-        }
-    }
 
     private Handler handler = new Handler() {
         @Override
@@ -367,6 +287,7 @@ public class MainFragment extends BaseFragment {
                     RadioButton rb;
                     RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(20, 20);
                     params.rightMargin = (int) (5 * getResources().getDisplayMetrics().density);
+
                     for (int i = 0; i < slidesBeanList.size(); i++) {
                         rb = new RadioButton(mActivity);
                         rb.setButtonDrawable(null);
@@ -377,8 +298,15 @@ public class MainFragment extends BaseFragment {
 
                     home_top_rg.check(home_top_rg.getChildAt(home_top_vp.getCurrentItem() % slidesBeanList.size()).getId());
                     break;
+                case 2:
+                    if (home_gv.getAdapter() == null)
+                        home_gv.setAdapter(new HomeGridViewAdapter(homeListViewBean, mActivity));
+                    break;
+                case -1:
+                    mainTopViewPagerAdapter = new MainTopViewPagerAdapter(slidesBeanList, mActivity);
+                    home_top_vp.setAdapter(mainTopViewPagerAdapter);
+                    break;
             }
         }
     };
-    
 }
