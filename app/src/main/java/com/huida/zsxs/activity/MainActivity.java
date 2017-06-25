@@ -2,8 +2,10 @@ package com.huida.zsxs.activity;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -18,7 +20,7 @@ import com.huida.zsxs.view.TitleView;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 public class MainActivity extends Activity {
     private RadioGroup center;
     private List<BaseFragment> fragments;
@@ -38,6 +40,7 @@ public class MainActivity extends Activity {
         center = (RadioGroup) findViewById(R.id.main_rg_center);
         title = (TitleView) findViewById(R.id.main_tv_title);
     }
+
 
     private void initData() {
         fragments = new ArrayList<>();

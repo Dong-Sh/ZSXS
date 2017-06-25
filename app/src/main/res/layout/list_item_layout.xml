@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="15dp">
+    <ImageView
+        android:id="@+id/iv_item_icon"
+        android:layout_width="150dp"
+        android:layout_height="110dp"
+        android:background="@mipmap/duanwang_icon"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginLeft="10dp">
+    <TextView
+        android:id="@+id/tv_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lines="2"
+        android:text="2017导游从业资格--全国导游基础知识（考点精讲"
+        android:textSize="20sp"
+
+
+        />
+    <TextView
+        android:id="@+id/tv_item_Sectitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2017导游从业资格--全国导游基础知识（考点精讲）"
+        android:textSize="12sp"
+        android:layout_marginTop="8dp"
+       />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:id="@+id/tv__item_jifen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/jifen_smart"
+            android:text="150"
+            />
+        <TextView
+            android:id="@+id/tv_item_dianjiliang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/dianjiliang_smart"
+            android:text="360"
+            android:layout_marginLeft="4dp"/>
+
+    </LinearLayout>
+</LinearLayout>
+
+</LinearLayout>
