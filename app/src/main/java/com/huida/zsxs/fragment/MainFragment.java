@@ -10,9 +10,9 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -45,7 +45,7 @@ public class MainFragment extends BaseFragment {
     private RadioGroup home_top_rg;
     private LinearLayout home_4_ll;
     private LinearLayout home_100_ll;
-    private GridView home_gv;
+    private ListView home_gv;
     List<TopSlidesBean.SlidesBean> slidesBeanList;
 
 
@@ -64,7 +64,7 @@ public class MainFragment extends BaseFragment {
         home_top_rg = (RadioGroup) view.findViewById(R.id.home_top_ll);
         home_4_ll = (LinearLayout) view.findViewById(R.id.home_4_ll);
         home_100_ll = (LinearLayout) view.findViewById(R.id.home_100_ll);
-        home_gv = (GridView) view.findViewById(R.id.home_gv);
+        home_gv = (ListView) view.findViewById(R.id.home_gv);
         initData();
 
     }
@@ -127,11 +127,11 @@ public class MainFragment extends BaseFragment {
                 public void onSuccess(String result) {
 
                     slidesBeanList = gson.fromJson(result, TopSlidesBean.class).getSlides();
-                    Log.d(TAG, "onSuccess: "+slidesBeanList.size());
+                    Log.d(TAG, "onSuccess: " + slidesBeanList.size());
                     handler.sendEmptyMessageDelayed(0, 2000);
                     handler.sendEmptyMessage(-1);
                     handler.sendEmptyMessage(1);
-                    home_top_vp.setCurrentItem(slidesBeanList.size() * 50);
+
                     mainTopViewPagerAdapter.notifyDataSetChanged();
                     Log.d(TAG, "onSuccess: " + slidesBeanList);
 
@@ -177,7 +177,6 @@ public class MainFragment extends BaseFragment {
             x.http().get(entity, new Callback.CommonCallback<String>() {
                 @Override
                 public void onSuccess(String result) {
-                    Log.d(TAG, "onSuccess: course100Bean" + result);
 
                     Course100Bean course100Bean = gson.fromJson(result, Course100Bean.class);
 
@@ -218,8 +217,6 @@ public class MainFragment extends BaseFragment {
                         });
 
 
-                        Log.d(TAG, "onSuccess: course100Bean" + course100Bean);
-
                     }
                 }
 
@@ -247,7 +244,6 @@ public class MainFragment extends BaseFragment {
             x.http().get(entity, new Callback.CommonCallback<String>() {
                 @Override
                 public void onSuccess(String result) {
-
                     homeListViewBean = gson.fromJson(result, HomeListViewBean.class);
                     handler.sendEmptyMessage(2);
                     Log.d(TAG, "onSuccess: " + homeListViewBean);
@@ -280,7 +276,6 @@ public class MainFragment extends BaseFragment {
             switch (msg.what) {
                 case 0:
                     home_top_vp.setCurrentItem((home_top_vp.getCurrentItem() + 1));
-
                     handler.sendEmptyMessageDelayed(0, 2000);
                     break;
                 case 1:
@@ -295,12 +290,12 @@ public class MainFragment extends BaseFragment {
                         rb.setBackgroundResource(R.drawable.home_top_rb_seleter);
                         home_top_rg.addView(rb);
                     }
-
                     home_top_rg.check(home_top_rg.getChildAt(home_top_vp.getCurrentItem() % slidesBeanList.size()).getId());
+                    home_top_vp.setCurrentItem(slidesBeanList.size() * 50);
                     break;
                 case 2:
-                    if (home_gv.getAdapter() == null)
-                        home_gv.setAdapter(new HomeGridViewAdapter(homeListViewBean, mActivity));
+                    home_gv.setAdapter(new HomeGridViewAdapter(homeListViewBean, mActivity));
+
                     break;
                 case -1:
                     mainTopViewPagerAdapter = new MainTopViewPagerAdapter(slidesBeanList, mActivity);

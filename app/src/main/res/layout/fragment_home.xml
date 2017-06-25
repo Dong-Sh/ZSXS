@@ -302,15 +302,21 @@
 
             </LinearLayout>
 
-            <GridView
-                android:id="@+id/home_gv"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:verticalSpacing="10dp"
-                android:horizontalSpacing="10dp"
-                android:numColumns="2"
                 android:layout_height="match_parent">
 
-            </GridView>
+                <ListView
+                    android:id="@+id/home_gv"
+                    android:layout_width="match_parent"
+                    android:verticalSpacing="10dp"
+                    android:horizontalSpacing="10dp"
+                    android:numColumns="2"
+                    android:layout_height="match_parent">
+
+                </ListView>
+
+            </ScrollView>
 
         </LinearLayout>
 
