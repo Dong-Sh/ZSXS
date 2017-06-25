@@ -29,4 +29,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'org.xutils:xutils:3.5.0'
+    compile 'com.android.support:percent:22.2.0'
 }

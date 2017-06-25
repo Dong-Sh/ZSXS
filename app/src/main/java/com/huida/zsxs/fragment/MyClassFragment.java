@@ -1,10 +1,9 @@
 package com.huida.zsxs.fragment;
 
 import android.app.Activity;
-import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -39,13 +38,11 @@ public class MyClassFragment extends BaseFragment implements View.OnClickListene
         super(mActivity);
     }
     protected int getLayouId() {
-
         return R.layout.fragment_mycass;
     }
 
-    public View initView(LayoutInflater inflater, @Nullable ViewGroup container) {
-        // View  view=View.inflate(mActivity, R.layout.myclass_layout,null);
-        View view = inflater.inflate(R.layout.fragment_mycass, container, false);
+    @Override
+    protected void initView() {
         tv_username = (TextView) view.findViewById(R.id.tv_username);
         ib_hasbuy = (ImageButton) view.findViewById(R.id.ib_hasbuy);
         ib_recent = (ImageButton) view.findViewById(R.id.ib_recent);
@@ -57,7 +54,6 @@ public class MyClassFragment extends BaseFragment implements View.OnClickListene
         view_line = view.findViewById(R.id.view_line);
         initData();
         initListener();
-        return view;
     }
 
     /**
@@ -68,7 +64,8 @@ public class MyClassFragment extends BaseFragment implements View.OnClickListene
         ib_hasbuy.setOnClickListener(this);
         ib_recent.setOnClickListener(this);
         ib_offline.setOnClickListener(this);
-        vp_myclass.setOnPageChangeListener(new MyClassPagerChangeListener());
+        vp_myclass.addOnPageChangeListener(new MyClassPagerChangeListener());
+
         vp_myclass.setAdapter(new MyClassPageAdater());
     }
     /**
@@ -96,6 +93,7 @@ public class MyClassFragment extends BaseFragment implements View.OnClickListene
     }
     @Override
     public void onClick(View view) {
+        Log.d("Dongsh", "onClick: ");
         switch (view.getId()){
             case  R.id.ib_hasbuy:
                 ib_hasbuy.setSelected(true);
