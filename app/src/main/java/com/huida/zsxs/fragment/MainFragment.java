@@ -371,7 +371,7 @@ public class MainFragment extends BaseFragment {
 
                     home_top_rg.check(home_top_rg.getChildAt(home_top_vp.getCurrentItem() % slidesBeanList.size()).getId());
                     break;
-
+  //Dong'sh
             }
         }
     };
