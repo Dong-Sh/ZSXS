@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/TitleBack"
+        android:gravity="center_vertical"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/search_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@mipmap/back" />
+
+        <EditText
+            android:id="@+id/search_et"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@mipmap/search_back_list"
+            android:hint="请输入您想搜索的内容"
+            android:padding="10dp"
+            android:textColor="#000"
+            android:textColorHint="@color/TextColor" />
+
+        <TextView
+            android:id="@+id/search_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="搜索"
+            android:textColor="#fff"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/search_rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/BottomColor"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="15dp">
+
+        <RadioButton
+            android:id="@+id/search_rb_0"
+            style="@style/SearchText"
+            android:checked="true"
+            android:text="视频" />
+
+        <RadioButton
+            android:id="@+id/search_rb_1"
+            style="@style/SearchText"
+            android:text="音频" />
+
+        <RadioButton
+            android:id="@+id/search_rb_2"
+            style="@style/SearchText"
+            android:text="读书" />
+
+        <RadioButton
+            android:id="@+id/search_rb_3"
+            style="@style/SearchText"
+            android:text="文章" />
+
+
+    </RadioGroup>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/search_vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+</LinearLayout>

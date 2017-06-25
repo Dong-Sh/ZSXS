@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="最近搜索"
+            android:textColor="@color/TextColor" />
+
+        <ImageView
+            android:id="@+id/search_iv_item_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/item_delete" />
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/search_bottm_gv1"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:verticalSpacing="20dp"
+        android:layout_height="wrap_content"
+        android:numColumns="2">
+
+    </GridView>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="热门搜索"
+        android:textColor="@color/TextColor"
+        android:textSize="20sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.huida.zsxs.view.HotSearchView
+            android:id="@+id/search_hotsearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+        </com.huida.zsxs.view.HotSearchView>
+
+    </ScrollView>
+
+
+</LinearLayout>

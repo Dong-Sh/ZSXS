@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context="com.huida.zsxs.activity.MainActivity">
+
+
+    <com.huida.zsxs.view.TitleView
+        android:id="@+id/main_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.huida.zsxs.view.TitleView>
+
+    <FrameLayout
+        android:id="@+id/main_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </FrameLayout>
+
+    <RadioGroup
+        android:id="@+id/main_rg_center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/BottomColor"
+        android:orientation="horizontal"
+        android:paddingTop="5dp">
+
+        <RadioButton
+            android:id="@+id/main_rb_home"
+            style="@style/MainRadioButtonStyle"
+            android:checked="true"
+            android:drawableTop="@drawable/rb_select_main"
+            android:text="主页" />
+
+        <RadioButton
+            android:id="@+id/main_rb_course"
+            style="@style/MainRadioButtonStyle"
+            android:drawableTop="@drawable/rb_select_course"
+            android:text="选课" />
+
+        <RadioButton
+            android:id="@+id/main_rb_myclass"
+            style="@style/MainRadioButtonStyle"
+            android:drawableTop="@drawable/rb_seleter_my_course_"
+            android:text="我的课" />
+
+        <RadioButton
+            android:id="@+id/main_rb_center"
+            style="@style/MainRadioButtonStyle"
+            android:drawableTop="@drawable/rb_seleter_my_center"
+            android:text="个人中心" />
+
+    </RadioGroup>
+
+
+</LinearLayout>
