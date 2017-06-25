@@ -1,8 +1,8 @@
 package com.huida.zsxs.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.support.annotation.Nullable;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huida.zsxs.R;
-import com.huida.zsxs.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by lenovo on 2017/6/8.
@@ -30,7 +28,7 @@ public class MyClassFragment extends BaseFragment implements View.OnClickListene
     private ImageButton ib_recent;
     private ImageButton ib_offline;
     private ViewPager vp_myclass;
-    private List<Objects> menuList;
+    private List<TextView> menuList;
     private View view_line;
     private  int tabsize=4;
     private int screenwidth;
@@ -40,7 +38,10 @@ public class MyClassFragment extends BaseFragment implements View.OnClickListene
     public MyClassFragment(Activity mActivity) {
         super(mActivity);
     }
+    protected int getLayouId() {
 
+        return R.layout.fragment_mycass;
+    }
 
     public View initView(LayoutInflater inflater, @Nullable ViewGroup container) {
         // View  view=View.inflate(mActivity, R.layout.myclass_layout,null);
@@ -54,7 +55,7 @@ public class MyClassFragment extends BaseFragment implements View.OnClickListene
         TextView tv_video = (TextView) view.findViewById(R.id.tv_video);
         TextView tv_readbook = (TextView) view.findViewById(R.id.tv_readbook);
         view_line = view.findViewById(R.id.view_line);
-
+        initData();
         initListener();
         return view;
     }
@@ -68,20 +69,28 @@ public class MyClassFragment extends BaseFragment implements View.OnClickListene
         ib_recent.setOnClickListener(this);
         ib_offline.setOnClickListener(this);
         vp_myclass.setOnPageChangeListener(new MyClassPagerChangeListener());
+        vp_myclass.setAdapter(new MyClassPageAdater());
     }
-
     /**
      * 初始化数据
      */
-
     public void initData() {
-        menuList = new ArrayList<>();
         ib_hasbuy.setSelected(true);
         ib_recent.setSelected(false);
         ib_offline.setSelected(false);
+        menuList = new ArrayList<>();
+        TextView  tv;
+        for (int i = 0; i < 10; i++) {
+            tv= new  TextView(mActivity);
+            tv.setText("第"+i+"个");
+            tv.setWidth(20);
+            tv.setHeight(20);
+            menuList.add(tv);
+        }
+
         screenwidth = mActivity.getWindowManager().getDefaultDisplay().getWidth();
         params = (LinearLayout.LayoutParams) view_line.getLayoutParams();
-        params.leftMargin=screenwidth/menuList.size();
+        params.leftMargin=screenwidth/4;
         view_line.setLayoutParams(params);
 
     }
@@ -123,7 +132,7 @@ public class MyClassFragment extends BaseFragment implements View.OnClickListene
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             //指示器移动的距离=一个指示器的宽度*页面移动的比例+position*一个指示器的宽度
             //移动指示器
-            int offsetX = (int) (screenwidth/ menuList.size()*positionOffset+(position*screenwidth/menuList.size()));
+            int offsetX = (int) (screenwidth/ 4*positionOffset+(position*screenwidth/4));
             params.leftMargin=offsetX;
             view_line.setLayoutParams(params);
         }
@@ -138,11 +147,32 @@ public class MyClassFragment extends BaseFragment implements View.OnClickListene
 
         }
     }
+        class  MyClassPageAdater extends PagerAdapter{
 
-    protected int getLayouId() {
+            @Override
+            public int getCount() {
+                return 10;
+            }
 
-        return R.layout.fragment_mycass;
-    }
+            @Override
+            public boolean isViewFromObject(View view, Object object) {
+                return view==object;
+            }
+
+            @Override
+            public Object instantiateItem(ViewGroup container, int position) {
+                View view = View.inflate(mActivity, R.layout.list_item_layout,null);
+               // TextView s = menuList.get(position);
+                container.addView(view);
+                return view;
+            }
+
+            @Override
+            public void destroyItem(ViewGroup container, int position, Object object) {
+                container.removeView((View) object);
+            }
+        }
+
 
 
 }
