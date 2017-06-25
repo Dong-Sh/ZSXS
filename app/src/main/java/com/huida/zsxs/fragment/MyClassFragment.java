@@ -14,6 +14,7 @@ public class MyClassFragment extends BaseFragment {
 
     public MyClassFragment(Activity mActivity) {
         super(mActivity);
+        //guty
 
     }
 
