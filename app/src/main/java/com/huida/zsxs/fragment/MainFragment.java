@@ -130,6 +130,10 @@ public class MainFragment extends BaseFragment {
             entity.addQueryStringParameter("Action", "GetSlides");//首页幻灯片信息
             x.http().get(entity, new Callback.CommonCallback<String>() {
                 public void onSuccess(String result) {
+
+                    if(slidesBeanList.size()==0)
+                        return;
+
                     try {
                         slidesBeanList.clear();
                         JSONObject object = new JSONObject(result);
@@ -281,6 +285,8 @@ public class MainFragment extends BaseFragment {
             public void onSuccess(String result) {
 
                 homeListViewBean = gson.fromJson(result, HomeListViewBean.class);
+
+                Log.d(TAG, "onSuccess: "+homeListViewBean);
             }
 
             @Override
@@ -371,9 +377,6 @@ public class MainFragment extends BaseFragment {
 
                     home_top_rg.check(home_top_rg.getChildAt(home_top_vp.getCurrentItem() % slidesBeanList.size()).getId());
                     break;
-  //Dong  Sh dj
-
-                //is a pasdkjf adsf
             }
         }
     };
