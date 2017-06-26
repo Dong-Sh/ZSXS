@@ -30,4 +30,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'org.xutils:xutils:3.5.0'
     compile 'com.android.support:percent:22.2.0'
+    compile 'com.google.zxing:core:3.3.0'
 }

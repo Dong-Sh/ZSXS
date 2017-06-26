@@ -72,7 +72,6 @@ public class MainFragment extends BaseFragment {
 
     private void initData() {
 
-
         getHttpData();
         initEvent();
     }
@@ -126,6 +125,9 @@ public class MainFragment extends BaseFragment {
             x.http().get(entity, new Callback.CommonCallback<String>() {
                 public void onSuccess(String result) {
 
+                    if(slidesBeanList!=null && slidesBeanList.size()!=0){
+                        return;
+                    }
                     slidesBeanList = gson.fromJson(result, TopSlidesBean.class).getSlides();
                     Log.d(TAG, "onSuccess: " + slidesBeanList.size());
                     handler.sendEmptyMessageDelayed(0, 2000);

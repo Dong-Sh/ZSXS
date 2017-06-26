@@ -2,6 +2,7 @@ package com.huida.zsxs.activity;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -9,7 +10,9 @@ import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import com.google.zxing.activity.CaptureActivity;
 import com.huida.zsxs.R;
 import com.huida.zsxs.fragment.BaseFragment;
 import com.huida.zsxs.fragment.MainFragment;
@@ -98,7 +101,23 @@ public class MainActivity extends Activity {
 
                 transaction.commit();
             }
+
         });
+        title.setRight2Listener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                startActivityForResult(intent, -1);
+            }
+        });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) { //RESULT_OK = -1
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString("result");
+            Toast.makeText(MainActivity.this, scanResult, Toast.LENGTH_LONG).show();
+        }
     }
 
 }

@@ -6,10 +6,11 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.huida.zsxs.R;
 import com.huida.zsxs.activity.SearchActivity;
 
@@ -21,9 +22,9 @@ public class TitleView extends LinearLayout {
 
     private ImageView icon;
     private TextView title;
-    private ImageButton search;
-    private ImageButton right1;
-    private ImageButton right2;
+    private ImageView search;
+    private ImageView right1;
+    private Button right2;
 
     public TitleView(Context context) {
         super(context);
@@ -47,9 +48,9 @@ public class TitleView extends LinearLayout {
 
         icon = (ImageView) view.findViewById(R.id.title_iv_icon);
         title = (TextView) view.findViewById(R.id.title_tv_title);
-        search = (ImageButton) view.findViewById(R.id.title_ib_search);
-        right1 = (ImageButton) view.findViewById(R.id.title_ib_right1);
-        right2 = (ImageButton) view.findViewById(R.id.title_ib_right2);
+        search = (ImageView) view.findViewById(R.id.title_ib_search);
+        right1 = (ImageView) view.findViewById(R.id.title_ib_right1);
+        right2 = (Button) view.findViewById(R.id.title_ib_right2);
         initListener();
     }
 
