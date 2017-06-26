@@ -10,7 +10,7 @@
         android:background="#efeeee"
         android:orientation="vertical">
 
-
+        <!--轮播图-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
                 android:paddingBottom="10dp"
                 android:paddingRight="10dp"></RadioGroup>
         </RelativeLayout>
-
+        <!--四小图标-->
         <LinearLayout
             android:id="@+id/home_4_ll"
             android:layout_width="match_parent"
@@ -134,7 +134,7 @@
 
 
         </LinearLayout>
-
+        <!--百分课-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -302,21 +302,18 @@
 
             </LinearLayout>
 
-            <ScrollView
+
+            <com.huida.zsxs.view.HomtRecommendGridView
+                android:id="@+id/home_gv"
+                android:padding="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:horizontalSpacing="10dp"
+                android:numColumns="2"
+                android:verticalSpacing="10dp">
 
-                <ListView
-                    android:id="@+id/home_gv"
-                    android:layout_width="match_parent"
-                    android:verticalSpacing="10dp"
-                    android:horizontalSpacing="10dp"
-                    android:numColumns="2"
-                    android:layout_height="match_parent">
+            </com.huida.zsxs.view.HomtRecommendGridView>
 
-                </ListView>
-
-            </ScrollView>
 
         </LinearLayout>
 

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="#fff"
+    android:padding="10dp"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -18,14 +19,17 @@
         android:lines="1"
         android:layout_marginLeft="10dp"
         android:text="123"
+        android:ellipsize="end"
         android:textColor="#000" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:background="@color/TextColor"
+
+        android:textColor="@color/TextColor"
         android:lines="1"
+        android:maxEms="10"
         android:layout_marginLeft="10dp"
         android:text="123" />
 
@@ -36,22 +40,21 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:drawableLeft="@mipmap/keshi_smart"
             android:gravity="center_vertical"
             android:text="1111"
-            android:textColor="#000" />
+            android:textColor="#20f536" />
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:drawableLeft="@mipmap/dianjiliang_smart"
             android:gravity="center_vertical"
             android:text="1111"
-            android:textColor="#000" />
+            android:textColor="#20f536" />
 
 
     </LinearLayout>

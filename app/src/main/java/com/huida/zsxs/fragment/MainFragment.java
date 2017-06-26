@@ -10,9 +10,9 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -45,7 +45,7 @@ public class MainFragment extends BaseFragment {
     private RadioGroup home_top_rg;
     private LinearLayout home_4_ll;
     private LinearLayout home_100_ll;
-    private ListView home_gv;
+    private GridView home_gv;
     List<TopSlidesBean.SlidesBean> slidesBeanList;
 
 
@@ -64,7 +64,7 @@ public class MainFragment extends BaseFragment {
         home_top_rg = (RadioGroup) view.findViewById(R.id.home_top_ll);
         home_4_ll = (LinearLayout) view.findViewById(R.id.home_4_ll);
         home_100_ll = (LinearLayout) view.findViewById(R.id.home_100_ll);
-        home_gv = (ListView) view.findViewById(R.id.home_gv);
+        home_gv = (GridView) view.findViewById(R.id.home_gv);
         initData();
 
     }
@@ -274,11 +274,11 @@ public class MainFragment extends BaseFragment {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case 0:
+                case 0://开启轮播图循环播放
                     home_top_vp.setCurrentItem((home_top_vp.getCurrentItem() + 1));
                     handler.sendEmptyMessageDelayed(0, 2000);
                     break;
-                case 1:
+                case 1://动态添加轮播图底部点
                     RadioButton rb;
                     RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(20, 20);
                     params.rightMargin = (int) (5 * getResources().getDisplayMetrics().density);
@@ -291,11 +291,11 @@ public class MainFragment extends BaseFragment {
                         home_top_rg.addView(rb);
                     }
                     home_top_rg.check(home_top_rg.getChildAt(home_top_vp.getCurrentItem() % slidesBeanList.size()).getId());
-                    home_top_vp.setCurrentItem(slidesBeanList.size() * 50);
+
+                    home_top_vp.setCurrentItem(slidesBeanList.size() * 50);//设置ViewPager位置
                     break;
                 case 2:
                     home_gv.setAdapter(new HomeGridViewAdapter(homeListViewBean, mActivity));
-
                     break;
                 case -1:
                     mainTopViewPagerAdapter = new MainTopViewPagerAdapter(slidesBeanList, mActivity);
