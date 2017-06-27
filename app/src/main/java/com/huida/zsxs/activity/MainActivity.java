@@ -23,6 +23,9 @@ import com.huida.zsxs.view.TitleView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
+
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 public class MainActivity extends Activity {
     private RadioGroup center;
@@ -56,7 +59,7 @@ public class MainActivity extends Activity {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
         for (int i = 0; i < 4; i++) {
-            transaction.add(R.id.main_fragment,fragments.get(i), i + "");
+            transaction.add(R.id.main_fragment, fragments.get(i), i + "");
             transaction.hide(fragments.get(i));
         }
 
@@ -106,18 +109,28 @@ public class MainActivity extends Activity {
         title.setRight2Listener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-                startActivityForResult(intent, -1);
+                startActivityForResult(intent, 50);
             }
         });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) { //RESULT_OK = -1
-            Bundle bundle = data.getExtras();
-            String scanResult = bundle.getString("result");
-            Toast.makeText(MainActivity.this, scanResult, Toast.LENGTH_LONG).show();
+        Log.d(TAG, "onActivityResult: " + requestCode + "|" + resultCode);
+
+        if(resultCode==RESULT_OK){
+            switch (requestCode) {
+                case 50:
+                    Bundle bundle = data.getExtras();
+                    String scanResult = bundle.getString("qr_scan_result");
+                    Toast.makeText(MainActivity.this, scanResult, Toast.LENGTH_LONG).show();
+
+                    break;
+            }
         }
+
+
     }
+
 
 }

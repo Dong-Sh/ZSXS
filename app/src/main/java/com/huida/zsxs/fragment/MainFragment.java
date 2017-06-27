@@ -306,4 +306,17 @@ public class MainFragment extends BaseFragment {
             }
         }
     };
+
+    public Handler getHandler(){
+        return handler;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        handler.removeCallbacksAndMessages(null);
+
+        handler.sendEmptyMessage(0);
+    }
 }

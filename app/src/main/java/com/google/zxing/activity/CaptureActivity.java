@@ -73,9 +73,13 @@ public class CaptureActivity extends AppCompatActivity implements Callback {
     //	private Button cancelScanButton;
     public static final int RESULT_CODE_QR_SCAN = 0xA1;
     public static final String INTENT_EXTRA_KEY_QR_SCAN = "qr_scan_result";
+    private ImageView splash;
+
     /**
      * Called when the activity is first created.
      */
+    public boolean flag = true;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +88,23 @@ public class CaptureActivity extends AppCompatActivity implements Callback {
         CameraManager.init(getApplication());
         viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_content);
         back = (ImageView) findViewById(R.id.scanner_toolbar_back);
+        splash = (ImageView) findViewById(R.id.scanner_toolbar_splash);
+        splash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    if (flag) {
+                        CameraManager.get().openLight();
+                        flag = false;
+                    }else {
+                        CameraManager.get().offLight();
+                        flag = true;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,7 +154,7 @@ public class CaptureActivity extends AppCompatActivity implements Callback {
 
     @Override
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
-        if (requestCode==RESULT_OK) {
+        if (requestCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_SCAN_GALLERY:
                     //获取选中图片的路径
@@ -159,7 +180,7 @@ public class CaptureActivity extends AppCompatActivity implements Callback {
 //                                handler.sendMessage(m);
                                 Intent resultIntent = new Intent();
                                 Bundle bundle = new Bundle();
-                                bundle.putString(INTENT_EXTRA_KEY_QR_SCAN ,result.getText());
+                                bundle.putString(INTENT_EXTRA_KEY_QR_SCAN, result.getText());
 //                                Logger.d("saomiao",result.getText());
 //                                bundle.putParcelable("bitmap",result.get);
                                 resultIntent.putExtras(bundle);
@@ -181,11 +202,12 @@ public class CaptureActivity extends AppCompatActivity implements Callback {
 
     /**
      * 扫描二维码图片的方法
+     *
      * @param path
      * @return
      */
     public Result scanningImage(String path) {
-        if(TextUtils.isEmpty(path)){
+        if (TextUtils.isEmpty(path)) {
             return null;
         }
         Hashtable<DecodeHintType, String> hints = new Hashtable<>();

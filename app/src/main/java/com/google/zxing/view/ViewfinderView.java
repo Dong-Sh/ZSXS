@@ -50,10 +50,10 @@ public final class ViewfinderView extends View {
   private static final int[]  SCANNER_ALPHA                 =   {0, 64, 128, 192, 255, 192, 128, 64};
   private static final long   ANIMATION_DELAY               =   10L;
   private static final int    OPAQUE                        =   0xFF;
-  private static final int    CORNER_RECT_WIDTH             =   8;  //扫描区边角的宽
-  private static final int    CORNER_RECT_HEIGHT            =   40; //扫描区边角的高
+  private static final int    CORNER_RECT_WIDTH             =   16;  //扫描区边角的宽
+  private static final int    CORNER_RECT_HEIGHT            =   80; //扫描区边角的高
   private static final int    SCANNER_LINE_MOVE_DISTANCE    =   5;  //扫描线移动距离
-  private static final int    SCANNER_LINE_HEIGHT           =   10;  //扫描线宽度
+  private static final int    SCANNER_LINE_HEIGHT           =   20;  //扫描线宽度
 
   private final Paint paint;
   private Bitmap resultBitmap;
@@ -129,7 +129,7 @@ public final class ViewfinderView extends View {
       canvas.drawBitmap(resultBitmap, frame.left, frame.top, paint);
     } else {
       // Draw a two pixel solid black border inside the framing rect
-      drawFrame(canvas, frame);
+      //drawFrame(canvas, frame);
       // 绘制边角
       drawCorner(canvas, frame);
       //绘制提示信息

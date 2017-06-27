@@ -1,6 +1,7 @@
 package com.huida.zsxs.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.huida.zsxs.R;
+import com.huida.zsxs.activity.SpecialActivity;
 import com.huida.zsxs.bean.TopSlidesBean;
 
 import org.xutils.x;
@@ -52,10 +54,28 @@ public class MainTopViewPagerAdapter extends PagerAdapter {
             position = slidesBeanList.size() + position;
         }
 
-        TopSlidesBean.SlidesBean slidesBean = slidesBeanList.get(position);
+        final TopSlidesBean.SlidesBean slidesBean = slidesBeanList.get(position);
 
         x.image().bind(im, slidesBean.getPic());
 
+
+        im.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(slidesBean.getPictype().equals("app")){
+                    Intent intent = new Intent(mActivity, SpecialActivity.class);
+
+                    intent.putExtra("pic",slidesBean.getPic());
+                    intent.putExtra("title",slidesBean.getTitle());
+                    intent.putExtra("picURL",slidesBean.getPic());
+
+                    mActivity.startActivity(intent);
+
+                }else{
+
+                }
+            }
+        });
 
         container.addView(im);
         return im;

@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,7 +23,7 @@ public class TitleView extends LinearLayout {
     private TextView title;
     private ImageView search;
     private ImageView right1;
-    private Button right2;
+    private ImageView right2;
 
     public TitleView(Context context) {
         super(context);
@@ -50,7 +49,7 @@ public class TitleView extends LinearLayout {
         title = (TextView) view.findViewById(R.id.title_tv_title);
         search = (ImageView) view.findViewById(R.id.title_ib_search);
         right1 = (ImageView) view.findViewById(R.id.title_ib_right1);
-        right2 = (Button) view.findViewById(R.id.title_ib_right2);
+        right2 = (ImageView) view.findViewById(R.id.title_ib_right2);
         initListener();
     }
 
@@ -89,6 +88,6 @@ public class TitleView extends LinearLayout {
     }
 
     public void setRight2Listener(OnClickListener listener) {
-        right1.setOnClickListener(listener);
+        right2.setOnClickListener(listener);
     }
 }
