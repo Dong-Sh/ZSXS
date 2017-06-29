@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -46,7 +47,8 @@ public class MainFragment extends BaseFragment {
     private LinearLayout home_4_ll;
     private LinearLayout home_100_ll;
     private GridView home_gv;
-    List<TopSlidesBean.SlidesBean> slidesBeanList;
+    private List<TopSlidesBean.SlidesBean> slidesBeanList;
+    private ScrollView scrollView;
 
 
     public MainFragment(Activity mActivity) {
@@ -65,6 +67,8 @@ public class MainFragment extends BaseFragment {
         home_4_ll = (LinearLayout) view.findViewById(R.id.home_4_ll);
         home_100_ll = (LinearLayout) view.findViewById(R.id.home_100_ll);
         home_gv = (GridView) view.findViewById(R.id.home_gv);
+        home_gv.setFocusable(false);
+        scrollView = (ScrollView) view.findViewById(R.id.fragment_home_scrollview);
         initData();
 
     }
@@ -85,6 +89,7 @@ public class MainFragment extends BaseFragment {
                         handler.removeMessages(0);
                         break;
                     case MotionEvent.ACTION_UP:
+                        handler.removeMessages(0);
                         handler.sendEmptyMessageDelayed(0, 2000);
                         break;
                     case MotionEvent.ACTION_MOVE:
@@ -130,6 +135,7 @@ public class MainFragment extends BaseFragment {
                     }
                     slidesBeanList = gson.fromJson(result, TopSlidesBean.class).getSlides();
                     Log.d(TAG, "onSuccess: " + slidesBeanList.size());
+                    handler.removeMessages(0);
                     handler.sendEmptyMessageDelayed(0, 2000);
                     handler.sendEmptyMessage(-1);
                     handler.sendEmptyMessage(1);
@@ -278,11 +284,12 @@ public class MainFragment extends BaseFragment {
             switch (msg.what) {
                 case 0://开启轮播图循环播放
                     home_top_vp.setCurrentItem((home_top_vp.getCurrentItem() + 1));
+                    handler.removeMessages(0);
                     handler.sendEmptyMessageDelayed(0, 2000);
                     break;
                 case 1://动态添加轮播图底部点
                     RadioButton rb;
-                    RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(20, 20);
+                    RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(15, 15);
                     params.rightMargin = (int) (5 * getResources().getDisplayMetrics().density);
 
                     for (int i = 0; i < slidesBeanList.size(); i++) {
@@ -307,16 +314,10 @@ public class MainFragment extends BaseFragment {
         }
     };
 
-    public Handler getHandler(){
-        return handler;
-    }
-
     @Override
     public void onResume() {
         super.onResume();
-
-        handler.removeCallbacksAndMessages(null);
-
+        handler.removeMessages(0);
         handler.sendEmptyMessage(0);
     }
 }

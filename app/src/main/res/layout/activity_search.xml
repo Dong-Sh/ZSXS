@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/TitleBack"
@@ -17,15 +17,18 @@
             android:id="@+id/search_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_margin="5dp"
             android:background="@mipmap/back" />
 
         <EditText
             android:id="@+id/search_et"
-            android:layout_width="0dp"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_margin="5dp"
-            android:layout_weight="1"
+            android:textSize="15sp"
+            
             android:background="@mipmap/search_back_list"
             android:hint="请输入您想搜索的内容"
             android:padding="10dp"
@@ -36,12 +39,15 @@
             android:id="@+id/search_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_margin="5dp"
+            android:paddingRight="15dp"
             android:text="搜索"
             android:textColor="#fff"
             android:textSize="15sp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <RadioGroup
         android:id="@+id/search_rg"

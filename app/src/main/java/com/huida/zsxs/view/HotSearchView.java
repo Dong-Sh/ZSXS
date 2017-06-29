@@ -1,7 +1,6 @@
 package com.huida.zsxs.view;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -40,21 +39,6 @@ public class HotSearchView extends LinearLayout {
         initView();
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-
-
-    }
-
-
     private LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     int width = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
 
@@ -70,7 +54,7 @@ public class HotSearchView extends LinearLayout {
             textView.setTextColor(Color.BLACK);
             textView.setText(values[i]);
             textView.setBackgroundResource(R.drawable.search_tv_shape);
-
+textView.setTextSize(12);
             textView.setLayoutParams(params);
             textView.setPadding(50,25,50,25);
             textView.setTextColor(Color.parseColor("#7d7f81"));

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
+import static com.huida.zsxs.R.id.main_rb_home;
 
 @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
 public class MainActivity extends Activity {
@@ -76,7 +77,8 @@ public class MainActivity extends Activity {
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                 switch (checkedId) {
-                    case R.id.main_rb_home:
+                    case main_rb_home:
+
                         break;
                     case R.id.main_rb_course:
                         title.setTitle("视频中心");
@@ -89,18 +91,17 @@ public class MainActivity extends Activity {
                         break;
                 }
 
-                if (checkedId - 2131427425 == 0) {
+                if (checkedId - main_rb_home == 0) {
                     title.setVisible(View.VISIBLE, View.INVISIBLE, View.VISIBLE, View.VISIBLE, View.VISIBLE);
                 } else {
                     title.setVisible(View.INVISIBLE, View.VISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
                 }
 
 //                transaction.replace(R.id.main_fragment, );
-
                 for (int i = 0; i < 4; i++) {
                     transaction.hide(fragments.get(i));
                 }
-                transaction.show(fragments.get(checkedId - 2131427425));
+                transaction.show(fragments.get(checkedId - main_rb_home));
 
                 transaction.commit();
             }
@@ -118,7 +119,7 @@ public class MainActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult: " + requestCode + "|" + resultCode);
 
-        if(resultCode==RESULT_OK){
+        if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 50:
                     Bundle bundle = data.getExtras();

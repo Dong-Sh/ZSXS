@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,51 +11,63 @@
 
     <com.huida.zsxs.view.TitleView
         android:id="@+id/main_tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_heightPercent="8%"
+        app:layout_widthPercent="100%">
+
     </com.huida.zsxs.view.TitleView>
 
-    <FrameLayout
-        android:id="@+id/main_fragment"
+    <com.zhy.android.percent.support.PercentRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-    </FrameLayout>
+        android:layout_height="match_parent">
 
-    <RadioGroup
-        android:id="@+id/main_rg_center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/BottomColor"
-        android:orientation="horizontal"
-        android:paddingTop="5dp">
+        <FrameLayout
+            android:id="@+id/main_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <RadioButton
-            android:id="@+id/main_rb_home"
-            style="@style/MainRadioButtonStyle"
-            android:checked="true"
-            android:drawableTop="@drawable/rb_select_main"
-            android:text="主页" />
+        </FrameLayout>
 
-        <RadioButton
-            android:id="@+id/main_rb_course"
-            style="@style/MainRadioButtonStyle"
-            android:drawableTop="@drawable/rb_select_course"
-            android:text="选课" />
+        <RadioGroup
+            android:id="@+id/main_rg_center"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignParentBottom="true"
+            android:background="#c7c6c6c6"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            app:layout_heightPercent="10%"
+            app:layout_widthPercent="100%">
 
-        <RadioButton
-            android:id="@+id/main_rb_myclass"
-            style="@style/MainRadioButtonStyle"
-            android:drawableTop="@drawable/rb_seleter_my_course_"
-            android:text="我的课" />
+            <RadioButton
+                android:id="@+id/main_rb_home"
+                style="@style/MainRadioButtonStyle"
+                android:checked="true"
+                android:drawableTop="@drawable/rb_select_main"
+                android:text="主页" />
 
-        <RadioButton
-            android:id="@+id/main_rb_center"
-            style="@style/MainRadioButtonStyle"
-            android:drawableTop="@drawable/rb_seleter_my_center"
-            android:text="个人中心" />
+            <RadioButton
+                android:id="@+id/main_rb_course"
+                style="@style/MainRadioButtonStyle"
+                android:drawableTop="@drawable/rb_select_course"
+                android:text="选课" />
 
-    </RadioGroup>
+            <RadioButton
+                android:id="@+id/main_rb_myclass"
+                style="@style/MainRadioButtonStyle"
+                android:drawableTop="@drawable/rb_seleter_my_course_"
+                android:text="我的课" />
+
+            <RadioButton
+                android:id="@+id/main_rb_center"
+                style="@style/MainRadioButtonStyle"
+                android:drawableTop="@drawable/rb_seleter_my_center"
+                android:text="个人中心" />
+
+        </RadioGroup>
+
+    </com.zhy.android.percent.support.PercentRelativeLayout>
 
 
-</LinearLayout>
+</com.zhy.android.percent.support.PercentLinearLayout>

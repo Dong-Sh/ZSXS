@@ -25,11 +25,13 @@ public class MainTopViewPagerAdapter extends PagerAdapter {
 
     private Activity mActivity;
     private List<TopSlidesBean.SlidesBean> slidesBeanList;
-    ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    private LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
     public MainTopViewPagerAdapter(List<TopSlidesBean.SlidesBean> slidesBeanList, Activity mActivity) {
         this.slidesBeanList = slidesBeanList;
         this.mActivity = mActivity;
+
+
     }
 
     @Override
@@ -49,7 +51,7 @@ public class MainTopViewPagerAdapter extends PagerAdapter {
         im.setBackgroundResource(R.mipmap.guodu_icon);
 
         im.setLayoutParams(params);
-
+        im.setScaleType(ImageView.ScaleType.FIT_XY);
         if (position < 0) {
             position = slidesBeanList.size() + position;
         }
@@ -62,16 +64,16 @@ public class MainTopViewPagerAdapter extends PagerAdapter {
         im.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(slidesBean.getPictype().equals("app")){
+                if (slidesBean.getPictype().equals("app")) {
                     Intent intent = new Intent(mActivity, SpecialActivity.class);
 
-                    intent.putExtra("pic",slidesBean.getPic());
-                    intent.putExtra("title",slidesBean.getTitle());
-                    intent.putExtra("picURL",slidesBean.getPic());
+                    intent.putExtra("pic", slidesBean.getPic());
+                    intent.putExtra("title", slidesBean.getTitle());
+                    intent.putExtra("picURL", slidesBean.getPic());
 
                     mActivity.startActivity(intent);
 
-                }else{
+                } else {
 
                 }
             }

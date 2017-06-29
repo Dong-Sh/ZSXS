@@ -36,9 +36,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@mipmap/center_icon"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="50dp"
+        android:background="@mipmap/center_icon" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="50dp"
+        android:drawableLeft="@mipmap/denglu_icon"
+        android:drawableRight="@mipmap/buttom_smart" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@mipmap/denglu_mima_icon" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:text="登录"
+        android:textSize="20sp"
+        android:background="@drawable/shape_login_button"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="20dp" />
 
 
 </LinearLayout>

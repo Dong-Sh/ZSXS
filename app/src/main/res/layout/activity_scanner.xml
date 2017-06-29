@@ -44,10 +44,26 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
         android:gravity="center"
-        android:paddingTop="260dp"
-        android:text="对准二维码到框内即可扫描"
+        android:paddingTop="280dp"
+        android:text="扫描登录/扫描看课"
         android:textColor="#fff" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="50dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:text="我的二维码"
+        android:textColor="#00d4ff" />
+
 
 </RelativeLayout>
