@@ -12,9 +12,10 @@ import android.util.Log;
 public class SpUtils {
 
     private static String SEARCH = "search";
+    public static String USERID = "userid";
     private static SharedPreferences sharedPreferences;
 
-    public static boolean setString(Context context, String key, String value) {
+    public static boolean setSearchString(Context context, String key, String value) {
 
         String string = getString(context, key);
 
@@ -37,7 +38,20 @@ public class SpUtils {
         return true;
     }
 
-    public static void clearString(Context context, String key) {
+    public static boolean setString(Context context, String key, String value) {
+
+        sharedPreferences = context.getSharedPreferences(SEARCH, Context.MODE_PRIVATE);
+
+        Editor edit = sharedPreferences.edit();
+
+        edit.putString(key, value);
+
+        edit.commit();
+
+        return true;
+    }
+
+    public static void clearSearchString(Context context, String key) {
 
         sharedPreferences = context.getSharedPreferences(SEARCH, Context.MODE_PRIVATE);
 
@@ -54,6 +68,5 @@ public class SpUtils {
 
         return sharedPreferences.getString(key, "");
     }
-
 
 }

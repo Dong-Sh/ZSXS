@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.huida.zsxs.R;
 import com.huida.zsxs.bean.TopSlidesBean;
 import com.huida.zsxs.view.BackView;
+
+import org.xutils.x;
 
 /**
  * Created by lenovo on 2017/6/26.
@@ -42,6 +45,12 @@ public class SpecialActivity extends Activity {
         String pic = intent.getStringExtra("pic");
         String title = intent.getStringExtra("title");
         String picURL = intent.getStringExtra("picURL");
+
+        ImageView imageView = new ImageView(this);
+
+        x.image().bind(imageView,pic);
+
+        special_lv.addHeaderView(imageView);
 
         special_back.setTitle(title);
     }

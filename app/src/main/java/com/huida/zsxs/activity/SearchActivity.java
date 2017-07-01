@@ -48,6 +48,7 @@ public class SearchActivity extends Activity {
     private ViewPager vp;
     private EditText et;
     private RadioGroup rg;
+    private Map<Integer, LinearLayout> mapLinearLayout = new TreeMap<>();
     private Map<Integer, HotSearchView> mapHotSearch = new TreeMap<>();
     private Map<Integer, GridView> mapGridView = new TreeMap<>();
     private TextView search_tv;
@@ -64,7 +65,6 @@ public class SearchActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_search);
 
         initView();
@@ -102,7 +102,7 @@ public class SearchActivity extends Activity {
 //                    manager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 manager.hideSoftInputFromWindow(et.getWindowToken(), 0);
 //                Log.d(TAG, "onCheckedChanged: "+checkedId);
-                vp.setCurrentItem(checkedId - R.id.search_rb_0);
+                vp.setCurrentItem(checkedId - R.id.search_rb_0);//TODO
             }
 
         });
@@ -170,6 +170,7 @@ public class SearchActivity extends Activity {
 
             @Override
             public void onPageSelected(int position) {
+                Log.d(TAG, "onPageSelected: "+vp.getChildCount());
                 rg.check(R.id.search_rb_0 + position);
             }
 
@@ -184,7 +185,7 @@ public class SearchActivity extends Activity {
                 Log.d(TAG, "onClick: 搜索了");
 
 
-                if(SpUtils.setString(SearchActivity.this, OLDSEARCH, et.getText().toString())){
+                if(SpUtils.setSearchString(SearchActivity.this, OLDSEARCH, et.getText().toString())){
                     oldSearchAdapter.setValues(SpUtils.getString(SearchActivity.this, OLDSEARCH).substring(1).split(","));
                     oldSearchAdapter.notifyDataSetChanged();
                 }
@@ -210,36 +211,43 @@ public class SearchActivity extends Activity {
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
+
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            LinearLayout search = (LinearLayout) View.inflate(SearchActivity.this, R.layout.search_bottm, null);
+            if(mapLinearLayout.get(position)==null){
+                LinearLayout search = (LinearLayout) View.inflate(SearchActivity.this, R.layout.search_bottm, null);
 
-            GridView g1 = (GridView) search.findViewById(R.id.search_bottm_gv1);
+                GridView g1 = (GridView) search.findViewById(R.id.search_bottm_gv1);
 
-            ImageView search_iv_item_delete = (ImageView) search.findViewById(R.id.search_iv_item_delete);
+                ImageView search_iv_item_delete = (ImageView) search.findViewById(R.id.search_iv_item_delete);
 
-            search_iv_item_delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SpUtils.clearString(SearchActivity.this,OLDSEARCH);
-                    oldSearchAdapter.setValues(new String[]{});
-                    oldSearchAdapter.notifyDataSetChanged();
-                }
-            });
+                search_iv_item_delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SpUtils.clearSearchString(SearchActivity.this,OLDSEARCH);
+                        oldSearchAdapter.setValues(new String[]{});
+                        oldSearchAdapter.notifyDataSetChanged();
+                    }
+                });
 
-            g1.setAdapter(oldSearchAdapter);
+                g1.setAdapter(oldSearchAdapter);
 
-            HotSearchView hotSearchView = (HotSearchView) search.findViewById(R.id.search_hotsearch);
-            mapHotSearch.put(position, hotSearchView);
-            mapGridView.put(position, g1);
+                HotSearchView hotSearchView = (HotSearchView) search.findViewById(R.id.search_hotsearch);
+                mapHotSearch.put(position, hotSearchView);
+                mapGridView.put(position, g1);
 
-            getHotSearch(position);
+                getHotSearch(position);
 
-            container.addView(search);
-            return search;
+                container.addView(search);
+
+                mapLinearLayout.put(position,search);
+            }else{
+
+            }
+
+            return mapLinearLayout.get(position);
         }
     }
 

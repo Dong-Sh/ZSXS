@@ -54,7 +54,7 @@ public class HotSearchView extends LinearLayout {
             textView.setTextColor(Color.BLACK);
             textView.setText(values[i]);
             textView.setBackgroundResource(R.drawable.search_tv_shape);
-textView.setTextSize(12);
+textView.setTextSize(13);
             textView.setLayoutParams(params);
             textView.setPadding(50,25,50,25);
             textView.setTextColor(Color.parseColor("#7d7f81"));
