@@ -53,16 +53,13 @@ public class MainActivity extends Activity {
         fragments = new ArrayList<>();
 
         fragments.add(new MainFragment(this));
-        fragments.add(new SeleterCourseFragment(this));
-        fragments.add(new MyClassFragment(this));
-        fragments.add(new MyCenterFragment(this));
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-        for (int i = 0; i < 4; i++) {
-            transaction.add(R.id.main_fragment, fragments.get(i), i + "");
-            transaction.hide(fragments.get(i));
-        }
+        transaction.add(R.id.main_fragment, fragments.get(0), 0 + "");
+        /*for (int i = 0; i < 4; i++) {
+        }*/
+        transaction.hide(fragments.get(0));
 
         transaction.show(fragments.get(0));
 
@@ -78,15 +75,30 @@ public class MainActivity extends Activity {
 
                 switch (checkedId) {
                     case main_rb_home:
-
+                        if(fragments.get(0)==null){
+                            fragments.add(new MainFragment(MainActivity.this));
+                            transaction.add(R.id.main_fragment, fragments.get(0), 0 + "");
+                        }
                         break;
                     case R.id.main_rb_course:
+                        if(fragments.get(1)==null){
+                            fragments.add(new SeleterCourseFragment(MainActivity.this));
+                            transaction.add(R.id.main_fragment, fragments.get(1), 1 + "");
+                        }
                         title.setTitle("视频中心");
                         break;
                     case R.id.main_rb_myclass:
+                        if(fragments.get(2)==null){
+                            fragments.add(new MyClassFragment(MainActivity.this));
+                            transaction.add(R.id.main_fragment, fragments.get(2), 2 + "");
+                        }
                         title.setTitle("我的课");
                         break;
                     case R.id.main_rb_center:
+                        if(fragments.get(3)==null){
+                            fragments.add(new MyCenterFragment(MainActivity.this));
+                            transaction.add(R.id.main_fragment, fragments.get(3), 3 + "");
+                        }
                         title.setTitle("中仕个人中心");
                         break;
                 }
@@ -98,6 +110,7 @@ public class MainActivity extends Activity {
                 }
 
 //                transaction.replace(R.id.main_fragment, );
+
                 for (int i = 0; i < 4; i++) {
                     transaction.hide(fragments.get(i));
                 }
