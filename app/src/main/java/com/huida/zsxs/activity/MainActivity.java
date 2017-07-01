@@ -53,13 +53,12 @@ public class MainActivity extends Activity {
         fragments = new ArrayList<>();
 
         fragments.add(new MainFragment(this));
-
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-        fragments.add(new MainFragment(MainActivity.this));
         fragments.add(new SeleterCourseFragment(MainActivity.this));
         fragments.add(new MyClassFragment(MainActivity.this));
         fragments.add(new MyCenterFragment(MainActivity.this));
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
 
         for (int i = 0; i < 4; i++) {
             transaction.add(R.id.main_fragment, fragments.get(i), i + "");
@@ -80,18 +79,14 @@ public class MainActivity extends Activity {
 
                 switch (checkedId) {
                     case main_rb_home:
-
                         break;
                     case R.id.main_rb_course:
-
                         title.setTitle("视频中心");
                         break;
                     case R.id.main_rb_myclass:
-
                         title.setTitle("我的课");
                         break;
                     case R.id.main_rb_center:
-
                         title.setTitle("中仕个人中心");
                         break;
                 }
