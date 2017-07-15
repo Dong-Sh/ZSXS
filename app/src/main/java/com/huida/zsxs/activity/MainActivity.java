@@ -87,6 +87,7 @@ public class MainActivity extends Activity {
                         title.setTitle("我的课");
                         break;
                     case R.id.main_rb_center:
+                        Log.d(TAG, "onCheckedChanged: zhongshixueshe");
                         title.setTitle("中仕个人中心");
                         break;
                 }

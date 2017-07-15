@@ -36,6 +36,7 @@
         <activity android:name=".activity.SearchActivity"/>
         <activity android:name=".activity.QRCodeActivity"/>
         <activity android:name=".activity.SpecialActivity"/>
+        <activity android:name=".activity.FourSpecialActivity"/>
         <activity
             android:name="com.google.zxing.activity.CaptureActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>

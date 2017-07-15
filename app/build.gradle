@@ -31,4 +31,5 @@ dependencies {
     compile 'org.xutils:xutils:3.5.0'
     compile 'com.zhy:percent-support-extends:1.0.1'
     compile 'com.google.zxing:core:3.3.0'
+    compile 'in.srain.cube:ptr-load-more:1.0.6'
 }

@@ -69,7 +69,7 @@ public class MainTopViewPagerAdapter extends PagerAdapter {
 
                     intent.putExtra("pic", slidesBean.getPic());
                     intent.putExtra("title", slidesBean.getTitle());
-                    intent.putExtra("picURL", slidesBean.getPic());
+                    intent.putExtra("picURL", slidesBean.getPicURL());
 
                     mActivity.startActivity(intent);
 
