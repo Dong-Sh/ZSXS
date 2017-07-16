@@ -20,13 +20,19 @@ public class SpUtils {
         String string = getString(context, key);
 
         if (!value.equals("")) {
-            Log.d("Dongsh", "setString: |" + string.indexOf(value) + "|" + string + "|" + value);
-            if (string.indexOf(value) != -1) {
-                return false;
+            if (!string.equals("")) {
+                Log.d("Dongsh", "setString: |" + string.indexOf(value) + "|" + string + "|" + value);
+                String[] split = string.substring(1).split(",");
+                for (int i = 0; i < split.length; i++) {
+                    if (split[i].equals(value)) {
+                        return false;
+                    }
+                }
             }
         } else {
             return false;
         }
+
         sharedPreferences = context.getSharedPreferences(SEARCH, Context.MODE_PRIVATE);
 
         Editor edit = sharedPreferences.edit();

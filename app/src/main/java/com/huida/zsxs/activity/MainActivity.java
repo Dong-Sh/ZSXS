@@ -132,8 +132,18 @@ public class MainActivity extends Activity {
             }
         }
 
-
     }
+    public void setHistoryOrOffLine(boolean flag){
+        if(flag){
+            title.setRight2LeftDrawable();
+        }else{
+            title.setRight2Clear();
+        }
+    }
+    public void setRightListener(View.OnClickListener listener){
+        title.setRight2Listener(listener);
+    }
+
 
 
 }

@@ -23,7 +23,7 @@ public class TitleView extends LinearLayout {
     private TextView title;
     private ImageView search;
     private ImageView right1;
-    private ImageView right2;
+    private TextView textView;
 
     public TitleView(Context context) {
         super(context);
@@ -49,7 +49,7 @@ public class TitleView extends LinearLayout {
         title = (TextView) view.findViewById(R.id.title_tv_title);
         search = (ImageView) view.findViewById(R.id.title_ib_search);
         right1 = (ImageView) view.findViewById(R.id.title_ib_right1);
-        right2 = (ImageView) view.findViewById(R.id.title_ib_right2);
+        textView = (TextView) view.findViewById(R.id.title_ib_right2);
         initListener();
     }
 
@@ -68,7 +68,7 @@ public class TitleView extends LinearLayout {
         title.setVisibility(visible[1]);
         search.setVisibility(visible[2]);
         right1.setVisibility(visible[3]);
-        right2.setVisibility(visible[4]);
+        textView.setVisibility(visible[4]);
     }
 
     public void setRight1Image(int resid) {//传入右边第一个图片
@@ -76,7 +76,7 @@ public class TitleView extends LinearLayout {
     }
 
     public void setRight2Image(int resid) {//传入右边第二个图片
-        right2.setBackgroundResource(resid);
+        textView.setBackgroundResource(resid);
     }
 
     public void setTitle(String title) {
@@ -88,6 +88,14 @@ public class TitleView extends LinearLayout {
     }
 
     public void setRight2Listener(OnClickListener listener) {
-        right2.setOnClickListener(listener);
+        textView.setOnClickListener(listener);
+    }
+    public void setRight2LeftDrawable(){
+        textView.setText("编辑");
+        textView.setCompoundDrawables(getResources().getDrawable(R.mipmap.item_delete),null,null,null);
+    }
+    public void setRight2Clear(){
+        textView.setText("取消");
+        textView.setCompoundDrawables(null,null,null,null);
     }
 }

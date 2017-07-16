@@ -25,7 +25,10 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.huida.zsxs.R;
+import com.huida.zsxs.adapter.SpecialListViewAdapter;
+import com.huida.zsxs.bean.SpecialBean;
 import com.huida.zsxs.utils.SpUtils;
 import com.huida.zsxs.utils.StaticValue;
 import com.huida.zsxs.view.HotSearchView;
@@ -44,7 +47,7 @@ import java.util.TreeMap;
 
 public class SearchActivity extends Activity {
 
-    private static final String TAG = "Dongsh";
+    private static final String TAG = "SearchActivity";
     private ViewPager vp;
     private EditText et;
     private RadioGroup rg;
@@ -61,6 +64,8 @@ public class SearchActivity extends Activity {
         }
     };
     private OldSearchAdapter oldSearchAdapter;
+    private static String OLDSEARCH = "oldsearch";
+    private SpecialListViewAdapter listViewAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,7 +114,6 @@ public class SearchActivity extends Activity {
         et.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
 
                 switch (event.getAction()) {
 
@@ -170,7 +174,7 @@ public class SearchActivity extends Activity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.d(TAG, "onPageSelected: "+vp.getChildCount());
+                Log.d(TAG, "onPageSelected: " + vp.getChildCount());
                 rg.check(R.id.search_rb_0 + position);
             }
 
@@ -182,21 +186,98 @@ public class SearchActivity extends Activity {
 
         search_tv.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d(TAG, "onClick: 搜索了");
+                Log.d(TAG, "onClick: 搜索了" + vp.getCurrentItem() + et.getText().toString());
 
 
-                if(SpUtils.setSearchString(SearchActivity.this, OLDSEARCH, et.getText().toString())){
+                if (SpUtils.setSearchString(SearchActivity.this, OLDSEARCH, et.getText().toString())) {
                     oldSearchAdapter.setValues(SpUtils.getString(SearchActivity.this, OLDSEARCH).substring(1).split(","));
                     oldSearchAdapter.notifyDataSetChanged();
+                } else {
+                    return;
                 }
 
+                getSearchData();
 
             }
         });
     }
 
-    private static String OLDSEARCH = "oldsearch";
 
+
+    public void getSearchData() {
+        RequestParams entity = new RequestParams(StaticValue.Address);
+
+        entity.addParameter("Action", "searchCourse");
+        entity.addParameter("kc_types", vp.getCurrentItem());
+        entity.addParameter("keywords", et.getText().toString());
+        entity.addParameter("Page", 0);
+//TODO search
+        x.http().get(entity, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d(TAG, "onSuccess: " + result);
+
+                SpecialBean searchBean = new Gson().fromJson(result, SpecialBean.class);
+
+                listViewAdapter = new SpecialListViewAdapter(searchBean, SearchActivity.this);
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+    private class SearchDataPagerAdapter extends PagerAdapter{
+        private SpecialBean bean;
+
+        public SearchDataPagerAdapter(SpecialBean bean) {
+            this.bean = bean;
+        }
+
+
+
+        @Override
+        public int getCount() {
+            return 4;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view==object;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+
+            View inflate = View.inflate(SearchActivity.this, R.layout.special_lv_item, null);
+            ImageView special_icon = (ImageView) inflate.findViewById(R.id.special_icon);
+            TextView special_title = (TextView) inflate.findViewById(R.id.special_title);
+            TextView search_title = (TextView) inflate.findViewById(R.id.search_title);
+            TextView special_time = (TextView) inflate.findViewById(R.id.special_time);
+            TextView special_jifen = (TextView) inflate.findViewById(R.id.special_jifen);
+            TextView hot = (TextView) inflate.findViewById(R.id.special_hot);
+
+            return super.instantiateItem(container, position);
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            super.destroyItem(container, position, object);
+
+        }
+    }
     private class SearchViewPagerAdapter extends PagerAdapter {
 
         @Override
@@ -216,7 +297,7 @@ public class SearchActivity extends Activity {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            if(mapLinearLayout.get(position)==null){
+            if (mapLinearLayout.get(position) == null) {
                 LinearLayout search = (LinearLayout) View.inflate(SearchActivity.this, R.layout.search_bottm, null);
 
                 GridView g1 = (GridView) search.findViewById(R.id.search_bottm_gv1);
@@ -226,7 +307,7 @@ public class SearchActivity extends Activity {
                 search_iv_item_delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SpUtils.clearSearchString(SearchActivity.this,OLDSEARCH);
+                        SpUtils.clearSearchString(SearchActivity.this, OLDSEARCH);
                         oldSearchAdapter.setValues(new String[]{});
                         oldSearchAdapter.notifyDataSetChanged();
                     }
@@ -242,8 +323,8 @@ public class SearchActivity extends Activity {
 
                 container.addView(search);
 
-                mapLinearLayout.put(position,search);
-            }else{
+                mapLinearLayout.put(position, search);
+            } else {
 
             }
 
@@ -288,15 +369,16 @@ public class SearchActivity extends Activity {
     private class OldSearchAdapter extends BaseAdapter {
         private String[] values;
         LinearLayout.LayoutParams params;
-        OldSearchAdapter(String value){
-            if(!TextUtils.isEmpty(value)){
+
+        OldSearchAdapter(String value) {
+            if (!TextUtils.isEmpty(value)) {
                 values = value.substring(1).split(",");
-            }else {
+            } else {
                 values = new String[]{};
             }
             params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.leftMargin = 20;
-            params.setMargins(20,0,0,0);
+            params.setMargins(20, 0, 0, 0);
         }
 
         void setValues(String[] values) {
@@ -321,7 +403,7 @@ public class SearchActivity extends Activity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             TextView textView = new TextView(SearchActivity.this);
-            textView.setText(values[values.length-1-position]);
+            textView.setText(values[values.length - 1 - position]);
             textView.setLayoutParams(params);
             textView.setTextSize(15);
             textView.setTextColor(Color.parseColor("#7d7f81"));
