@@ -1,13 +1,13 @@
 package com.huida.zsxs.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridView;
@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.huida.zsxs.R;
+import com.huida.zsxs.activity.FourSpecialActivity;
 import com.huida.zsxs.adapter.HomeGridViewAdapter;
 import com.huida.zsxs.adapter.MainTopViewPagerAdapter;
 import com.huida.zsxs.bean.Course100Bean;
@@ -134,19 +135,19 @@ public class MainFragment extends BaseFragment {
                         return;
                     }
                     slidesBeanList = gson.fromJson(result, TopSlidesBean.class).getSlides();
-                    Log.d(TAG, "onSuccess: " + slidesBeanList.size());
+                    //Log.d(TAG, "onSuccess: " + slidesBeanList.size());
                     handler.removeMessages(0);
                     handler.sendEmptyMessageDelayed(0, 2000);
                     handler.sendEmptyMessage(-1);
                     handler.sendEmptyMessage(1);
 
                     mainTopViewPagerAdapter.notifyDataSetChanged();
-                    Log.d(TAG, "onSuccess: " + slidesBeanList);
+                    //Log.d(TAG, "onSuccess: " + slidesBeanList);
 
                 }
 
                 public void onError(Throwable ex, boolean isOnCallback) {
-                    Log.d(TAG, "onError: 首页幻灯片信息" + ex);
+                    //Log.d(TAG, "onError: 首页幻灯片信息" + ex);
                 }
 
                 public void onCancelled(CancelledException cex) {
@@ -165,11 +166,29 @@ public class MainFragment extends BaseFragment {
         {
             for (int i = 0; i < home_4_ll.getChildCount(); i++) {
                 LinearLayout ll = (LinearLayout) home_4_ll.getChildAt(i);
+                final int finalI = i;
                 ll.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
+                        int fi = finalI+1;
                         LinearLayout ll = (LinearLayout) v;
                         TextView childAt = (TextView) ll.getChildAt(1);
-                        //TODO 四个小图标跳转
+
+                        //Log.d(TAG, "onClick: "+(finalI+1));
+                        Intent intent = new Intent(mActivity, FourSpecialActivity.class);
+
+                        switch (fi){
+                            case 4:
+                                fi = 3;
+                                break;
+                            case 3:
+                                fi = 4;
+                                break;
+                        }
+
+                        intent.putExtra("title",childAt.getText().toString());
+                        intent.putExtra("types",(fi)+"");
+
+                        startActivity(intent);
                     }
                 });
                 final ImageView childAt = (ImageView) ll.getChildAt(0);
@@ -230,7 +249,7 @@ public class MainFragment extends BaseFragment {
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
-                    Log.d(TAG, "onError: " + ex);
+                    //Log.d(TAG, "onError: " + ex);
                 }
 
                 @Override
@@ -254,12 +273,12 @@ public class MainFragment extends BaseFragment {
                 public void onSuccess(String result) {
                     homeListViewBean = gson.fromJson(result, HomeListViewBean.class);
                     handler.sendEmptyMessage(2);
-                    Log.d(TAG, "onSuccess: " + homeListViewBean);
+                    //Log.d(TAG, "onSuccess: " + homeListViewBean);
                 }
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
-                    Log.d(TAG, "onCancelled: " + ex);
+                    //Log.d(TAG, "onCancelled: " + ex);
                 }
 
                 @Override

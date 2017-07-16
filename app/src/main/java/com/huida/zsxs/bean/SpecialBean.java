@@ -146,5 +146,30 @@ public class SpecialBean {
         public void setHot(int hot) {
             this.hot = hot;
         }
+
+        @Override
+        public String toString() {
+            return "CourseBean{" +
+                    "kc_id='" + kc_id + '\'' +
+                    ", title='" + title + '\'' +
+                    ", img='" + img + '\'' +
+                    ", info='" + info + '\'' +
+                    ", money=" + money +
+                    ", keshi=" + keshi +
+                    ", hot=" + hot +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "SpecialBean{" +
+                "content='" + content + '\'' +
+                ", imgURL='" + imgURL + '\'' +
+                ", page_all=" + page_all +
+                ", page_now=" + page_now +
+                ", ZTtitle='" + ZTtitle + '\'' +
+                ", Course=" + Course +
+                '}';
     }
 }

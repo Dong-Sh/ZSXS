@@ -12,6 +12,10 @@
 
     <ListView
         android:id="@+id/special_lv"
+        android:divider="#c6c6c6"
+        android:dividerHeight="1dp"
+        android:headerDividersEnabled="false"
+        android:background="#fff"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
