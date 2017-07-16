@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingLeft="15dp">
     <ImageView
         android:id="@+id/iv_item_icon"
-        android:layout_width="150dp"
+        android:layout_width="120dp"
         android:layout_height="110dp"
         android:background="@mipmap/duanwang_icon"/>
 <LinearLayout
@@ -18,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:lines="2"
+        android:textColor="#000"
         android:text="2017导游从业资格--全国导游基础知识（考点精讲"
         android:textSize="20sp"
 
@@ -28,6 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2017导游从业资格--全国导游基础知识（考点精讲）"
+        android:textColor="#000"
         android:textSize="12sp"
         android:layout_marginTop="8dp"
        />
@@ -42,6 +44,7 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/jifen_smart"
             android:text="150"
+            android:textColor="#000"
             />
         <TextView
             android:id="@+id/tv_item_dianjiliang"
@@ -49,9 +52,17 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/dianjiliang_smart"
             android:text="360"
-            android:layout_marginLeft="4dp"/>
+            android:layout_marginLeft="4dp"
+            android:textColor="#000"/>
 
     </LinearLayout>
+
 </LinearLayout>
+    <CheckBox
+        android:id="@+id/cb_sel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone"/>
 
 </LinearLayout>
